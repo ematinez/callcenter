@@ -20231,3 +20231,35 @@
 30ene2018 22:23:19 95 [id:8] INFO  [Dispatcher]  – Llamada atendida: Llamada [id:8] Tiempo: 9
 30ene2018 22:23:22 95 [id:6] INFO  [Dispatcher]  – Llamada atendida: Llamada [id:6] Tiempo: 5
 30ene2018 22:23:23 95 [id:10] INFO  [Dispatcher]  – Llamada atendida: Llamada [id:10] Tiempo: 7
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Operador: Operador 1]
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Operador: Operador 2]
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Operador: Operador 3]
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Operador: Operador 4]
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Operador: Operador 5]
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Operador: Operador 6]
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Operador: Operador 7]
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Operador: Operador 8]
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Operador: Operador 9]
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Operador: Operador 10]
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Supervisor: Supervisor 1]
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Supervisor: Supervisor 2]
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Supervisor: Supervisor 3]
+30ene2018 22:58:39 66 [main] INFO  [Dispatcher]  – [Director: Director 1]
+30ene2018 22:58:39 76 [main] INFO  [Dispatcher]  – Nueva llamada: Llamada [id:6]
+30ene2018 22:58:39 76 [main] INFO  [Dispatcher]  – Nueva llamada: Llamada [id:5]
+30ene2018 22:58:39 76 [main] INFO  [Dispatcher]  – Nueva llamada: Llamada [id:7]
+30ene2018 22:58:39 76 [main] INFO  [Dispatcher]  – Nueva llamada: Llamada [id:9]
+30ene2018 22:58:39 76 [ForkJoinPool.commonPool-worker-2] INFO  [Dispatcher]  – Nueva llamada: Llamada [id:8]
+30ene2018 22:58:39 76 [ForkJoinPool.commonPool-worker-2] INFO  [Dispatcher]  – Nueva llamada: Llamada [id:2]
+30ene2018 22:58:39 76 [ForkJoinPool.commonPool-worker-2] INFO  [Dispatcher]  – Nueva llamada: Llamada [id:1]
+30ene2018 22:58:39 76 [ForkJoinPool.commonPool-worker-1] INFO  [Dispatcher]  – Nueva llamada: Llamada [id:3]
+30ene2018 22:58:39 76 [ForkJoinPool.commonPool-worker-2] INFO  [Dispatcher]  – Nueva llamada: Llamada [id:4]
+30ene2018 22:58:44 95 [id:3] INFO  [Dispatcher]  – Llamada atendida: Llamada [id:3] Tiempo: 5
+30ene2018 22:58:45 95 [id:6] INFO  [Dispatcher]  – Llamada atendida: Llamada [id:6] Tiempo: 6
+30ene2018 22:58:45 95 [id:8] INFO  [Dispatcher]  – Llamada atendida: Llamada [id:8] Tiempo: 6
+30ene2018 22:58:45 95 [id:1] INFO  [Dispatcher]  – Llamada atendida: Llamada [id:1] Tiempo: 6
+30ene2018 22:58:46 95 [id:9] INFO  [Dispatcher]  – Llamada atendida: Llamada [id:9] Tiempo: 7
+30ene2018 22:58:46 95 [id:2] INFO  [Dispatcher]  – Llamada atendida: Llamada [id:2] Tiempo: 7
+30ene2018 22:58:47 95 [id:5] INFO  [Dispatcher]  – Llamada atendida: Llamada [id:5] Tiempo: 8
+30ene2018 22:58:47 95 [id:7] INFO  [Dispatcher]  – Llamada atendida: Llamada [id:7] Tiempo: 8
+30ene2018 22:58:48 95 [id:4] INFO  [Dispatcher]  – Llamada atendida: Llamada [id:4] Tiempo: 9

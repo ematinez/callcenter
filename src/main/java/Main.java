@@ -47,15 +47,6 @@ public class Main {
         return empleados;
     }
 
-    private static void mostrarEstadisticas(List<Empleado> empleados) {
-
-        log.info("-------------------------------------------------------------");
-        log.info("-------------------- Estadisticas ---------------------------");
-
-        empleados.stream().forEach(
-                empleado -> log.info(empleado.getEstadisticas()));
-    }
-
     private static void runParallel(int numeroLlamadas) throws Exception {
         List<Llamada> llamadas = IntStream.range(1, numeroLlamadas)
                 .mapToObj(i -> new Llamada(i))
@@ -88,6 +79,15 @@ public class Main {
         executor.shutdown();
 
         Main.mostrarEstadisticas(empleados);
+    }
+    
+    private static void mostrarEstadisticas(List<Empleado> empleados) {
+
+        log.info("-------------------------------------------------------------");
+        log.info("-------------------- Estadisticas ---------------------------");
+
+        empleados.stream().forEach(
+                empleado -> log.info(empleado.getEstadisticas()));
     }
 
 }

@@ -30,7 +30,7 @@ public class Dispatcher implements Observer, Runnable {
 
     /**
      * Se utiliza un TreeSet para garantizar el orden y asegurar que primero se
-     * guardaran los empleados con mas prioridad primero en este caso:
+     * guardaran los empleados con mas prioridad, en este caso:
      * operadores luego supervisores y finalmente directores.
      */
     private final Set<Empleado> empleados = new TreeSet<>(new Comparator<Empleado>() {
@@ -41,7 +41,7 @@ public class Dispatcher implements Observer, Runnable {
     });
 
     /**
-     * Crea un Dispatcher que procesa las llamadas en la list llamadasEnEspera y
+     * Crea un Dispatcher que procesa las llamadas en la lista llamadasEnEspera y
      * luego termina el procesa.
      *
      * @param empleados
@@ -51,8 +51,8 @@ public class Dispatcher implements Observer, Runnable {
     }
 
     /**
-     * Crea un Dispatcher que procesa las llamadas en la list llamadasEnEspera y
-     * luego continua activo esperadno nuevas hasta que se llame el metodo
+     * Crea un Dispatcher que procesa las llamadas en la lista llamadasEnEspera y
+     * luego continua activo esperando nuevas hasta que se llame el metodo
      * shotDownOnFinish.
      *
      * @param empleados
@@ -81,15 +81,15 @@ public class Dispatcher implements Observer, Runnable {
 
     /**
      * Metodo que recibe las notificacon de las llamadas.
-     * si la llamada notifica que ha terminado, re remueve de 
+     * si la llamada notifica que ha terminado, se remueve de 
      * las llamadas de la cola de llamadas en atención.
-     * @param o llamada que notifica que ha terminado.
-     * @param arg tipo de mensaje que envia la llamada
+     * @param llamada que notifica que ha terminado.
+     * @param tipoMesaje tipo de mensaje que envia la llamada
      */
     @Override
-    public synchronized void update(Observable o, Object arg) {
-        if (TipoMesaje.COLGAR.equals(arg)) {
-            Llamada llamadaAtendida = (Llamada) o;
+    public synchronized void update(Observable llamada, Object tipoMesaje) {
+        if (TipoMesaje.COLGAR.equals(tipoMesaje)) {
+            Llamada llamadaAtendida = (Llamada) llamada;
             this.llamadasEnAtencion.remove(llamadaAtendida);
 
             log.info("Llamada atendida: " + llamadaAtendida + " Tiempo: " + llamadaAtendida.getTiempo());
