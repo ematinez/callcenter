@@ -13,8 +13,8 @@ public class Llamada extends Observable implements Runnable {
 
     private static final Logger log = LogManager.getLogger(Llamada.class);
 
-    private long id;
-    private int tiempo;
+    private final long id;
+    private final int tiempo;
     private boolean terminada;
     private Empleado empleadoAtendio;
 
@@ -50,9 +50,8 @@ public class Llamada extends Observable implements Runnable {
         new Thread(this, "id:" + this.id).start();
     }
 
-    private void notificar(TipoMesaje tipo) {
-        this.setChanged();
-        notifyObservers(tipo);
+    public void mesaje(String mesaje) {
+        log.debug(mesaje);
     }
 
     @Override
@@ -66,6 +65,11 @@ public class Llamada extends Observable implements Runnable {
 
     public Empleado getEmpleadoAtendio() {
         return empleadoAtendio;
+    }
+
+    private void notificar(TipoMesaje tipo) {
+        this.setChanged();
+        notifyObservers(tipo);
     }
 
 }

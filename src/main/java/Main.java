@@ -1,5 +1,6 @@
 
 import co.callcenter.dispatcher.Dispatcher;
+import co.callcenter.dispatcher.MemoryWaitingCallHandler;
 import co.callcenter.model.Director;
 import co.callcenter.model.Empleado;
 import co.callcenter.model.Llamada;
@@ -26,7 +27,7 @@ public class Main {
 
     public static void main(String... args) throws Exception {
 
-        Main.runParallel(10);
+        Main.run(30);
     }
 
     private static List<Empleado> crearEmpleados() {
@@ -54,7 +55,7 @@ public class Main {
         
         List<Empleado> empleados = Main.crearEmpleados();
 
-        Dispatcher dispatcher = new Dispatcher(empleados, false);
+        Dispatcher dispatcher = new Dispatcher(empleados, new MemoryWaitingCallHandler(), false);
         Future<?> future = Executors.newSingleThreadExecutor().submit(dispatcher);
 
         llamadas.stream().parallel().forEach(llamada -> dispatcher.dispatchCall(llamada));
@@ -66,10 +67,10 @@ public class Main {
         Main.mostrarEstadisticas(empleados);
     }
     
-    private static void runSecuencuial(int numeroLlamadas) throws ExecutionException, InterruptedException {
+    private static void run(int numeroLlamadas) throws ExecutionException, InterruptedException {
         List<Empleado> empleados = Main.crearEmpleados();
         
-        Dispatcher dispatcher = new Dispatcher(empleados);
+        Dispatcher dispatcher = new Dispatcher(empleados, new MemoryWaitingCallHandler());
 
         IntStream.range(1, numeroLlamadas).mapToObj(i -> new Llamada(i))
                 .forEach(llamada -> dispatcher.dispatchCall(llamada));

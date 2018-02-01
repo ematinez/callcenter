@@ -50,7 +50,7 @@ public class DispatcherTest {
     public void test10Llamadas() throws Exception {
         List<Llamada> llamadas = this.getLlamadas(10);
 
-        Dispatcher dispatcher = new Dispatcher(this.empleados);
+        Dispatcher dispatcher = new Dispatcher(this.empleados, new MemoryWaitingCallHandler());
         llamadas.stream().forEach(llamada -> dispatcher.dispatchCall(llamada));
 
         executor.submit(dispatcher).get();
@@ -74,7 +74,7 @@ public class DispatcherTest {
     public void test10LlamadasParallel() throws Exception {
         List<Llamada> llamadas = this.getLlamadas(10);
 
-        Dispatcher dispatcher = new Dispatcher(this.empleados, false);
+        Dispatcher dispatcher = new Dispatcher(this.empleados, new MemoryWaitingCallHandler(), false);
         Future<?> future = executor.submit(dispatcher);
         
         llamadas.stream().parallel().forEach(llamada -> dispatcher.dispatchCall(llamada));
@@ -100,9 +100,9 @@ public class DispatcherTest {
      */
     @Test
     public void testMasDe10LlamadasParallel() throws Exception {
-        List<Llamada> llamadas = this.getLlamadas(100);
+        List<Llamada> llamadas = this.getLlamadas(50);
 
-        Dispatcher dispatcher = new Dispatcher(this.empleados, false);
+        Dispatcher dispatcher = new Dispatcher(this.empleados, new MemoryWaitingCallHandler(), false);
         Future<?> future = executor.submit(dispatcher);
         
         llamadas.stream().parallel().forEach(llamada -> dispatcher.dispatchCall(llamada));
@@ -137,7 +137,7 @@ public class DispatcherTest {
                 operador, 
                 new Director("Fabiola"));
         
-        Dispatcher dispatcher = new Dispatcher(emplados);
+        Dispatcher dispatcher = new Dispatcher(emplados, new MemoryWaitingCallHandler());
         dispatcher.dispatchCall(llamada);
         
         executor.submit(dispatcher).get();

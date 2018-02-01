@@ -27,7 +27,7 @@ public abstract class Empleado implements Observer {
     }
 
     public boolean atenderLlamada(Llamada llamada) {
-        log.info(this.toString() + " atendiendo " + llamada);
+        log.debug(this.toString() + " atendiendo " + llamada);
 
         if (!this.disponible) {
             return false;
@@ -54,10 +54,9 @@ public abstract class Empleado implements Observer {
             case COLGAR:
                 this.llamadasAtendidas.add(llamada);
                 this.disponible = true;
-                log.info(this.toString() + " disponible");
+                log.debug(this.toString() + " disponible");
                 break;
             case HABLAR:
-                log.debug(arg);
                 break;
             default:
         }
