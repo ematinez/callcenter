@@ -1,7 +1,7 @@
 package co.callcenter.dispatcher;
 
 import co.callcenter.model.Director;
-import co.callcenter.model.Empleado;
+import co.callcenter.model.CallHandler;
 import co.callcenter.model.Llamada;
 import co.callcenter.model.Operador;
 import co.callcenter.model.Supervisor;
@@ -27,7 +27,7 @@ public class DispatcherTest {
      * executor para ejecutar el dispatcher en un hilo diferente al principal.
      */
     private ExecutorService executor;
-    private final List<Empleado> empleados = this.getEmpleados();
+    private final List<CallHandler> empleados = this.getCallHandlers();
 
     @Before
     public void setUp() {
@@ -50,14 +50,14 @@ public class DispatcherTest {
     public void test10Llamadas() throws Exception {
         List<Llamada> llamadas = this.getLlamadas(10);
 
-        Dispatcher dispatcher = new Dispatcher(this.empleados, new MemoryWaitingCallHandler());
+        Dispatcher dispatcher = new Dispatcher(this.empleados, new MemoryCallWaitingHandler());
         llamadas.stream().forEach(llamada -> dispatcher.dispatchCall(llamada));
 
         executor.submit(dispatcher).get();
 
         llamadas.stream().forEach(
                 llamada ->  assertNotNull(
-                        "Llamada no atendida", llamada.getEmpleadoAtendio()));
+                        "Llamada no atendida", llamada.getCallHandlerAttends()));
         
     }
     
@@ -74,7 +74,7 @@ public class DispatcherTest {
     public void test10LlamadasParallel() throws Exception {
         List<Llamada> llamadas = this.getLlamadas(10);
 
-        Dispatcher dispatcher = new Dispatcher(this.empleados, new MemoryWaitingCallHandler(), false);
+        Dispatcher dispatcher = new Dispatcher(this.empleados, new MemoryCallWaitingHandler(), false);
         Future<?> future = executor.submit(dispatcher);
         
         llamadas.stream().parallel().forEach(llamada -> dispatcher.dispatchCall(llamada));
@@ -85,7 +85,7 @@ public class DispatcherTest {
         
         llamadas.stream().forEach(
                 llamada ->  assertNotNull(
-                        "Llamada no atendida", llamada.getEmpleadoAtendio()));
+                        "Llamada no atendida", llamada.getCallHandlerAttends()));
         
     }
     
@@ -102,7 +102,7 @@ public class DispatcherTest {
     public void testMasDe10LlamadasParallel() throws Exception {
         List<Llamada> llamadas = this.getLlamadas(50);
 
-        Dispatcher dispatcher = new Dispatcher(this.empleados, new MemoryWaitingCallHandler(), false);
+        Dispatcher dispatcher = new Dispatcher(this.empleados, new MemoryCallWaitingHandler(), false);
         Future<?> future = executor.submit(dispatcher);
         
         llamadas.stream().parallel().forEach(llamada -> dispatcher.dispatchCall(llamada));
@@ -113,7 +113,7 @@ public class DispatcherTest {
         
         llamadas.stream().forEach(
                 llamada ->  assertNotNull(
-                        "Llamada no atendida", llamada.getEmpleadoAtendio()));
+                        "Llamada no atendida", llamada.getCallHandlerAttends()));
         
     }
 
@@ -128,25 +128,25 @@ public class DispatcherTest {
     public void testPrioridadOperadores() throws Exception {
 
         Llamada llamada = new Llamada(1L);
-        Empleado operador = new Operador("Juan");
+        CallHandler operador = new Operador("Juan");
         
-        List<Empleado> emplados = Arrays.asList(
+        List<CallHandler> emplados = Arrays.asList(
                 new Supervisor("Alejandro"),
                 new Supervisor("Pedro"),
                 new Director("Luisa"),
                 operador, 
                 new Director("Fabiola"));
         
-        Dispatcher dispatcher = new Dispatcher(emplados, new MemoryWaitingCallHandler());
+        Dispatcher dispatcher = new Dispatcher(emplados, new MemoryCallWaitingHandler());
         dispatcher.dispatchCall(llamada);
         
         executor.submit(dispatcher).get();
 
         assertEquals("Todas las llamadas se deben atender", 
-                    operador, llamada.getEmpleadoAtendio());
+                    operador, llamada.getCallHandlerAttends());
     }
 
-    private List<Empleado> getEmpleados() {
+    private List<CallHandler> getCallHandlers() {
         return Arrays.asList(
                 new Supervisor("Alejandro"),
                 new Supervisor("Pedro"),

@@ -1,6 +1,6 @@
 package co.callcenter.dispatcher;
 
-import co.callcenter.model.Empleado;
+import co.callcenter.model.CallHandler;
 import co.callcenter.model.Llamada;
 import co.callcenter.model.TipoMesaje;
 import java.util.Collection;
@@ -33,17 +33,17 @@ public class Dispatcher implements Observer, Runnable {
 
     private final List<Llamada> llamadasEnAtencion = new LinkedList<>();
     private boolean shotDownOnFinish;
-    private WaitingCallHandler waitingCallHandler;
+    private CallWaitingHandler waitingCallHandler;
 
     /**
      * Se utiliza un TreeSet para garantizar el orden y asegurar que primero se
      * guardaran los empleados con mas prioridad, en este caso: operadores luego
      * supervisores y finalmente directores.
      */
-    private final Set<Empleado> empleados = new TreeSet<>(new Comparator<Empleado>() {
+    private final Set<CallHandler> empleados = new TreeSet<>(new Comparator<CallHandler>() {
         @Override
-        public int compare(Empleado e1, Empleado e2) {
-            return e1.getPrioridad() < e2.getPrioridad() ? -1 : 1;
+        public int compare(CallHandler e1, CallHandler e2) {
+            return e1.getPrioridad() > e2.getPrioridad() ? -1 : 1;
         }
     });
 
@@ -54,7 +54,7 @@ public class Dispatcher implements Observer, Runnable {
      * @param empleados
      * @param waitingCallHandler
      */
-    public Dispatcher(Collection<Empleado> empleados, WaitingCallHandler waitingCallHandler) {
+    public Dispatcher(Collection<CallHandler> empleados, CallWaitingHandler waitingCallHandler) {
         this(empleados, waitingCallHandler, true);
     }
 
@@ -66,8 +66,8 @@ public class Dispatcher implements Observer, Runnable {
      * @param empleados
      * @param shotDownOnFinish
      */
-    public Dispatcher(Collection<Empleado> empleados,
-            WaitingCallHandler waitingCallHandler, boolean shotDownOnFinish) {
+    public Dispatcher(Collection<CallHandler> empleados,
+            CallWaitingHandler waitingCallHandler, boolean shotDownOnFinish) {
 
         this.waitingCallHandler = waitingCallHandler;
         this.shotDownOnFinish = shotDownOnFinish;
@@ -127,7 +127,7 @@ public class Dispatcher implements Observer, Runnable {
                  * orden de prioridad que se estableció en el comparador del
                  * TreeSet
                  */
-                Optional<Empleado> empleado = this.empleados
+                Optional<CallHandler> empleado = this.empleados
                         .stream().filter(l -> l.isDisponible()).findFirst();
 
                 if (empleado.isPresent()) {

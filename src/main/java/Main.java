@@ -1,6 +1,7 @@
 
 import co.callcenter.dispatcher.Dispatcher;
-import co.callcenter.dispatcher.MemoryWaitingCallHandler;
+import co.callcenter.dispatcher.MemoryCallWaitingHandler;
+import co.callcenter.model.CallHandler;
 import co.callcenter.model.Director;
 import co.callcenter.model.Empleado;
 import co.callcenter.model.Llamada;
@@ -27,11 +28,11 @@ public class Main {
 
     public static void main(String... args) throws Exception {
 
-        Main.run(30);
+        Main.run(13);
     }
 
-    private static List<Empleado> crearEmpleados() {
-        List<Empleado> empleados = new LinkedList<>();
+    private static List<CallHandler> crearEmpleados() {
+        List<CallHandler> empleados = new LinkedList<>();
 
         empleados.addAll(IntStream.range(1, 2)
                 .mapToObj(i -> new Director("Director " + i))
@@ -49,13 +50,13 @@ public class Main {
     }
 
     private static void runParallel(int numeroLlamadas) throws Exception {
-        List<Llamada> llamadas = IntStream.range(1, numeroLlamadas)
+        List<Llamada> llamadas = IntStream.range(1, numeroLlamadas+1)
                 .mapToObj(i -> new Llamada(i))
                 .collect(toList());
         
-        List<Empleado> empleados = Main.crearEmpleados();
+        List<CallHandler> empleados = Main.crearEmpleados();
 
-        Dispatcher dispatcher = new Dispatcher(empleados, new MemoryWaitingCallHandler(), false);
+        Dispatcher dispatcher = new Dispatcher(empleados, new MemoryCallWaitingHandler(), false);
         Future<?> future = Executors.newSingleThreadExecutor().submit(dispatcher);
 
         llamadas.stream().parallel().forEach(llamada -> dispatcher.dispatchCall(llamada));
@@ -68,11 +69,11 @@ public class Main {
     }
     
     private static void run(int numeroLlamadas) throws ExecutionException, InterruptedException {
-        List<Empleado> empleados = Main.crearEmpleados();
+        List<CallHandler> empleados = Main.crearEmpleados();
         
-        Dispatcher dispatcher = new Dispatcher(empleados, new MemoryWaitingCallHandler());
+        Dispatcher dispatcher = new Dispatcher(empleados, new MemoryCallWaitingHandler());
 
-        IntStream.range(1, numeroLlamadas).mapToObj(i -> new Llamada(i))
+        IntStream.range(1, numeroLlamadas+1).mapToObj(i -> new Llamada(i))
                 .forEach(llamada -> dispatcher.dispatchCall(llamada));
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -82,7 +83,7 @@ public class Main {
         Main.mostrarEstadisticas(empleados);
     }
     
-    private static void mostrarEstadisticas(List<Empleado> empleados) {
+    private static void mostrarEstadisticas(List<CallHandler> empleados) {
 
         log.info("-------------------------------------------------------------");
         log.info("-------------------- Estadisticas ---------------------------");

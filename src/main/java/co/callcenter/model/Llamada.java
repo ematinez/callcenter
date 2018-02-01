@@ -16,7 +16,7 @@ public class Llamada extends Observable implements Runnable {
     private final long id;
     private final int tiempo;
     private boolean terminada;
-    private Empleado empleadoAtendio;
+    private CallHandler callHandlerAttends;
 
     public Llamada(long id) {
         this.id = id;
@@ -45,8 +45,8 @@ public class Llamada extends Observable implements Runnable {
         return this.terminada;
     }
 
-    public void atender(Empleado empleado) {
-        this.empleadoAtendio = empleado;
+    public void atender(CallHandler callHandler) {
+        this.callHandlerAttends = callHandler;
         new Thread(this, "id:" + this.id).start();
     }
 
@@ -63,8 +63,8 @@ public class Llamada extends Observable implements Runnable {
         return tiempo;
     }
 
-    public Empleado getEmpleadoAtendio() {
-        return empleadoAtendio;
+    public CallHandler getCallHandlerAttends() {
+        return callHandlerAttends;
     }
 
     private void notificar(TipoMesaje tipo) {

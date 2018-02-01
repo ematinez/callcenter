@@ -1,25 +1,26 @@
 package co.callcenter.dispatcher;
 
 import co.callcenter.model.Llamada;
-import java.util.LinkedList;
+import java.util.ConcurrentModificationException;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import org.apache.log4j.LogManager;
 
 /**
  *
  * @author edwin
  */
-public class MemoryWaitingCallHandler implements WaitingCallHandler, Runnable {
+public class MemoryCallWaitingHandler implements CallWaitingHandler, Runnable {
 
-    private static final org.apache.log4j.Logger log = LogManager.getLogger(MemoryWaitingCallHandler.class);
+    private static final org.apache.log4j.Logger log = LogManager.getLogger(MemoryCallWaitingHandler.class);
     
     private static final String MENSAJE_DE_ESPERA = " Gracias por esperar en la "
             + "línea, un operador lo atendera pronto";
-    private final Queue<Llamada> llamadasEnEspera = new LinkedList<>();
+    private final Queue<Llamada> llamadasEnEspera = new ConcurrentLinkedDeque<>();
     private boolean running;
-    private long delayBetweenMessage = 3000L;
+    private final long delayBetweenMessage = 3000L;
 
-    public MemoryWaitingCallHandler() {
+    public MemoryCallWaitingHandler() {
 
     }
 
@@ -57,7 +58,7 @@ public class MemoryWaitingCallHandler implements WaitingCallHandler, Runnable {
                         (llamada) -> llamada.mesaje(llamada + MENSAJE_DE_ESPERA)
                 );
             }
-        } catch (InterruptedException ex) {
+        } catch (InterruptedException|ConcurrentModificationException ex) {
             log.error(ex);
         }
 

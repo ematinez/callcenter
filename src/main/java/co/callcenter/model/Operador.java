@@ -12,7 +12,7 @@ public class Operador extends Empleado {
 
     @Override
     public int getPrioridad() {
-        return 1;
+        return 3;
     }
     
 }

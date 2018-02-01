@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
  *
  * @author edwin
  */
-public abstract class Empleado implements Observer {
+public abstract class Empleado implements Observer, CallHandler {
 
     private static final Logger log = LogManager.getLogger(Empleado.class);
 
@@ -26,6 +26,7 @@ public abstract class Empleado implements Observer {
         this.llamadasAtendidas = new ArrayList<>();
     }
 
+    @Override
     public boolean atenderLlamada(Llamada llamada) {
         log.debug(this.toString() + " atendiendo " + llamada);
 
@@ -40,6 +41,7 @@ public abstract class Empleado implements Observer {
         return true;
     }
 
+    @Override
     public boolean isDisponible() {
         return this.disponible;
     }
@@ -93,6 +95,7 @@ public abstract class Empleado implements Observer {
         return Objects.equals(this.nombre, other.nombre);
     }
 
+    @Override
     public String getEstadisticas() {
         String estadisticas = this.toString() +  " Llamadas atendidas: " + llamadasAtendidas.size();
         estadisticas += " Tiempos: [ ";
@@ -106,9 +109,9 @@ public abstract class Empleado implements Observer {
         return estadisticas;
     }
 
+    @Override
     public String getNombre() {
         return nombre;
     }
 
-    public abstract int getPrioridad();
 }

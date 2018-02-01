@@ -12,7 +12,7 @@ public class Director extends Empleado {
     
     @Override
     public int getPrioridad() {
-        return 3;
+        return 1;
     }
     
 }

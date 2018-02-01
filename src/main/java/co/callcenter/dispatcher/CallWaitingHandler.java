@@ -6,7 +6,7 @@ import co.callcenter.model.Llamada;
  * 
  * @author edwin
  */
-public interface WaitingCallHandler {
+public interface CallWaitingHandler {
     
     void add(Llamada llamada);
     
